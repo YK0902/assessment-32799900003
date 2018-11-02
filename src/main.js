@@ -102,4 +102,48 @@
       removeScale(wrapper)
     }, 450);
   };
+  			
+  var menu = document.getElementById('menu'),
+    mList = menu.getElementsByTagName('ul')[0],
+    listItems = mList.getElementsByTagName('li'),
+    i;
+  
+  for (i = 0; i < listItems.length; i++) {
+    listItems[i].setAttribute('onclick' , 'overlayOnclick();');
+  } 
+			
+  overlayOnclick = function () {		
+	var layer = document.createElement('div'); 
+	var leftContent = document.createElement('div'); 
+	var rightContent = document.createElement('div'); 		
+	var styleForAll = 'height: 100%; \
+					   position: absolute; \
+					   top: 0;';
+	
+	layer.setAttribute('id' , 'overlay');
+	layer.setAttribute('style' , styleForAll + 'width: 100%;');
+	layer.setAttribute('onclick' , 'removeOverlay();');
+		
+	rightContent.setAttribute('style', styleForAll +
+					  'width: 50%; \
+					   right: 0; \
+					   background-color: lightgreen;'
+    );
+	
+	leftContent.setAttribute('style', styleForAll +
+					  'width: 50%; \
+					   left: 0; \
+					   background-color: red;'
+	);
+
+	layer.appendChild(leftContent); 
+	layer.appendChild(rightContent);	
+	document.body.appendChild(layer);
+  };
+	
+  removeOverlay = function () {
+    var element = document.getElementById('overlay');
+	element.parentNode.removeChild(element);
+  };
+			
 })();
