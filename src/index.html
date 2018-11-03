@@ -22,8 +22,8 @@
       <li>Entry 1</li>
       <li>Entry 2</li>
       <li>
-        <form action='https://rickandmortyapi.com/api/character/'>
-          <input type='text' name='name' placeholder='Search character...'><input type='submit'>
+        <form id='searchForm' accept-charset="utf-8" action='https://rickandmortyapi.com/api/character/'>
+          <input type='text' id='name' placeholder='Search character...'><input type='submit'>
         </form>
 	  </li>
     </ul>
@@ -35,7 +35,49 @@
     <div class='center'><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquid aspernatur nam, soluta voluptatem voluptatibus? Assumenda cumque eius excepturi provident quas quisquam voluptate voluptatum? Aliquam dicta harum minus quia quis!</p></div>
     <div class='right'><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error nam non optio tempora vitae. Animi aspernatur assumenda, dolor id inventore laborum nulla provident soluta? Aliquam at consequatur inventore nihil ullam.</p></div>
     <h2>Search Results</h2>
+	<div id="searchResults" class="left"></div>
   </div>
+  <script type="text/javascript">
+	document.forms['searchForm'].addEventListener('submit', (event) => {
+		var searchValue = document.getElementById('name').value;
+		var url = 'https://rickandmortyapi.com/api/character/?name=' + searchValue;
+		event.preventDefault();
+					
+		if (XMLHttpRequest){
+			var httpRequest = new XMLHttpRequest();
+			if (httpRequest.withCredentials !== undefined){
+			  // make cross-site requests
+			  httpRequest.open('get', url, true);
+				
+			} else if (typeof XDomainRequest != 'undefined') {
+				httpRequest = new XDomainRequest();
+				httpRequest.open('get', url);
+			} else {
+				httpRequest = null;
+			}    
+			
+			httpRequest.onload = function() {;
+			var i = 0;
+			var response = JSON.parse(httpRequest.response);
+			var results = response.results;
+			var maxResults = results.length > 10 ? 10 : results.length;
+			var nameList = '';
+			
+			for(i; i < maxResults -1; i++){
+				nameList += results[i].name +'</br>';
+			}
+			
+			document.getElementById('searchResults').innerHTML = nameList;
+		  };
+
+		  httpRequest.onerror = function() {
+			alert('request error');
+		  };
+
+		  httpRequest.send();
+		}
+	});
+  </script>
   <script src="./segment.js"></script>
   <script src="./main.js"></script>
   <script src="./ease.min.js"></script>

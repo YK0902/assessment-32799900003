@@ -108,7 +108,7 @@
     listItems = mList.getElementsByTagName('li'),
     i;
   
-  for (i = 0; i < listItems.length; i++) {
+  for (i = 0; i < listItems.length -1; i++) {
     listItems[i].setAttribute('onclick' , 'overlayOnclick();');
   } 
 			
